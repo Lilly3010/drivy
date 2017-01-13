@@ -165,19 +165,23 @@ var rentalModifications = [{
   'pickupDate': '2015-12-05'
 }];
 
-//EXERCICE 1
+//EXERCISE 1
 
 function setPrice(cars, rentals){
 	for(var i=0; i<rentals.length;++i){
 		var carOfRental = getCarById(cars, rentals[i].carId);
 		var PickDate =  new Date(rentals[i].pickupDate);
 		var ReturnDate = new Date(rentals[i].returnDate);
-		var nbDays = 1 + (ReturnDate.getDay() - PickDate.getDay());
-		
-		var Time = nbDays * carOfRental.pricePerDay;
+		var nbDays = Math.ceil((ReturnDate - PickDate)/(1000*60*60*24)) + 1;
+		console.log(ReturnDate - PickDate);
+		console.log((ReturnDate - PickDate)/(1000*60*60*60*24));
+		var pricePerDay = carOfRental.pricePerDay;
+				
+		var Time = nbDays * pricePerDay;
 		var Distance = rentals[i].distance * carOfRental.pricePerKm;
 		
 		rentals[i].price = Time + Distance;
+		console.log(nbDays);
 		console.log(rentals[i].price);
 	}
 }
@@ -198,6 +202,6 @@ console.log(cars);
 console.log(rentals);
 setPrice(cars,rentals);
 
-//console.log(actors);
-//console.log(rentalModifications);
+console.log(actors);
+console.log(rentalModifications);
 
