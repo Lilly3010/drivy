@@ -197,6 +197,12 @@ function setPrice_and_Commission(cars, rentals){
 		rentals[i].commission.insurance = commission*0.5;
 		rentals[i].commission.drivy = commission - rentals[i].commission.assistance - rentals[i].commission.insurance;
 		//exercise 3 --end
+		
+		//exercise 4 --start
+		if(rentals[i].options.deductibleReduction){
+			rentals[i].price += (nbDays*4);
+		}
+		//exercise 4 --end
 	}
 }
 
@@ -215,7 +221,6 @@ console.log(rentals);
 setPrice_and_Commission(cars,rentals);
 
 console.log(rentals);
-
 
 console.log(actors);
 console.log(rentalModifications);
