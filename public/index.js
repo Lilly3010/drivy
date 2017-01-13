@@ -167,14 +167,13 @@ var rentalModifications = [{
 
 //EXERCISE 1
 
-function setPrice(cars, rentals){
+function setPrice_and_Commission(cars, rentals){
 	for(var i=0; i<rentals.length;++i){
 		var carOfRental = getCarById(cars, rentals[i].carId);
 		var PickDate =  new Date(rentals[i].pickupDate);
 		var ReturnDate = new Date(rentals[i].returnDate);
 		var nbDays = Math.ceil((ReturnDate - PickDate)/(1000*60*60*24)) + 1;
-		console.log(ReturnDate - PickDate);
-		console.log((ReturnDate - PickDate)/(1000*60*60*60*24));
+		
 		var pricePerDay = carOfRental.pricePerDay;
 		
 		//exercise 2 -- start
@@ -191,8 +190,13 @@ function setPrice(cars, rentals){
 		var Distance = rentals[i].distance * carOfRental.pricePerKm;
 		
 		rentals[i].price = Time + Distance;
-		console.log(nbDays);
-		console.log(rentals[i].price);
+		
+		//exercise 3 --start
+		var commission = rentals[i].price*0.3;
+		rentals[i].commission.assistance = nbDays;
+		rentals[i].commission.insurance = commission*0.5;
+		rentals[i].commission.drivy = commission - rentals[i].commission.assistance - rentals[i].commission.insurance;
+		//exercise 3 --end
 	}
 }
 
@@ -208,9 +212,10 @@ function getCarById(cars, Id){
 console.log(cars);
 console.log(rentals);
 
-console.log(cars);
+setPrice_and_Commission(cars,rentals);
+
 console.log(rentals);
-setPrice(cars,rentals);
+
 
 console.log(actors);
 console.log(rentalModifications);
