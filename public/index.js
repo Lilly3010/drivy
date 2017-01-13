@@ -200,8 +200,8 @@ function setPrice_and_Commission(cars, rentals){
 		
 		//exercise 4 --start
 		if(rentals[i].options.deductibleReduction){
-			rentals[i].price += (nbDays*4);
-			rentals[i].commission.drivy += (nbDays*4);
+			var AmountDeductible = (nbDays*4);
+			rentals[i].price += AmountDeductible;
 		}
 		//exercise 4 --end
 	}
