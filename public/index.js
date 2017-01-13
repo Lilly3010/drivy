@@ -176,7 +176,17 @@ function setPrice(cars, rentals){
 		console.log(ReturnDate - PickDate);
 		console.log((ReturnDate - PickDate)/(1000*60*60*60*24));
 		var pricePerDay = carOfRental.pricePerDay;
-				
+		
+		//exercise 2 -- start
+		if(nbDays > 10){
+			pricePerDay *= 0.5;
+		} else if(nbDays >4){
+			pricePerDay *= 0.7;	
+		}else if(nbDays>1){
+			pricePerDay *= 0.9;
+		}
+		//exercise 2 --end
+		
 		var Time = nbDays * pricePerDay;
 		var Distance = rentals[i].distance * carOfRental.pricePerKm;
 		
