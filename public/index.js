@@ -216,13 +216,73 @@ function getCarById(cars, Id){
 	return;
 }
 
+function getRentalById(rentals, Id){
+	for( var r in rentals){
+		if(rentals[r].id == Id){
+			return rentals[r];
+		}
+	}
+	return;
+}
+
+function PayActors(actors, rentals){
+	for(var i=0; i<actors.length;++i){
+		var ActualRental = getRentalById(rentals,actors[i].rentalId);
+		
+		var PickDate =  new Date(ActualRental.pickupDate);
+		var ReturnDate = new Date(ActualRental.returnDate);
+		var nbDays = Math.ceil((ReturnDate - PickDate)/(1000*60*60*24)) + 1;
+		
+		//Let's get the amount for each actor
+		var PriceDriver = ActualRental.price;
+		var PriceInsurance = ActualRental.commission.insurance;
+		var PriceAssistance = ActualRental.commission.assistance;
+		var PriceDrivy = ActualRental.commission.drivy;
+		//Don't forget the deductive thing
+		if(rentals[i].options.deductibleReduction){
+			var AmountDeductible = (nbDays*4);
+			PriceDrivy += AmountDeductible;
+		}
+		
+		var PriceOwner = PriceDriver - (PriceAssistance+PriceDrivy+PriceInsurance);
+		
+		//Set up the amount
+		for(var i=0; i<actors[i].payment.length;++i){
+			switch(actors[i].payment.who){
+				case "driver" :
+					actors[i].payment.amount = PriceDriver;
+				break;
+				
+				case "owner" :
+					actors[i].payment.amount = PriceOwner;
+				break;
+				
+				case "insurance" :
+					actors[i].payment.amount = PriceInsurance;
+				break;
+				
+				case "assistance" :
+					actors[i].payment.amount = PriceAssistance;
+				break;
+				
+				case "drivy" :
+					actors[i].payment.amount = PriceDrivy;					
+				break;
+			}
+		}
+		
+		
+	}
+}
+
 console.log(cars);
 console.log(rentals);
+console.log(actors);
 
 setPrice_and_Commission(cars,rentals);
-
+PayActors(actors, rentals);
 console.log(rentals);
-
 console.log(actors);
+
 console.log(rentalModifications);
 
